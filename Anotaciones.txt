@@ -1,0 +1,13 @@
+*- se puede usar con sockets
+*- manejo de archivos, FileSystem, carga simultanea
+*- Servidores locales y remotos con información en tiempo real
+*- Conexión a bases de datos
+*- Creación de servicos REST en segundos
+
+non-blocking I/O:
+Código no bloqueante
+
+COLA DE PROCESOS:
+1. pila de procesos (Call Stack)
+2. Node Apis
+3. Cola de callbacks 
