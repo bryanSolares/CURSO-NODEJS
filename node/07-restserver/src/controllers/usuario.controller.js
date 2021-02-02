@@ -47,4 +47,61 @@ const modificarUsuario = (req, res) => {
   });
 };
 
-module.exports = { rutaInicial, crearUsuario, modificarUsuario };
+const mostrarTodos = (req, res) => {
+  let response = { error: null, ok: false, msg: "" };
+
+  let desde = Number(req.query.desde) || 0;
+  let limite = Number(req.query.limite) || 5;
+
+  try {
+    Usuario.find({ estado: true }, "nombre email role estado google img")
+      .skip(desde)
+      .limit(limite)
+      .exec((error, usuarios) => {
+        if (error) {
+          response.error = error;
+          response.msg = error.message || "No es posible realizar la consulta";
+          return res.status(400).json(response);
+        }
+
+        Usuario.count({ estado: true }, (error, contador) => {
+          response.ok = true;
+          response.usuarios = usuarios;
+          response.totalUsuarios = contador;
+          res.json(response);
+        });
+      });
+  } catch (error) {
+    response.error = error;
+    response.ok = false;
+    response.msg = error.message || "Error en base de datos";
+    res.json(response);
+  }
+};
+
+const eliminarUno = (req, res) => {
+  let response = { error: null, ok: false, msg: "" };
+  let { id } = req.params;
+
+  try {
+    Usuario.findByIdAndUpdate(id, { estado: false }, { new: true }, (error, usuarioBorrado) => {
+      if (error || !usuarioBorrado) {
+        response.error = error;
+        response.msg = "No es posible eliminar el usuario o no existe en base de datos";
+        return res.status(400).json(response);
+      }
+
+      response.ok = true;
+      response.msg = "Usuario eliminado";
+      response.usuario = usuarioBorrado;
+      res.json(response);
+    });
+  } catch (error) {
+    response.error = error;
+    response.ok = false;
+    response.msg = error.message || "Error en base de datos";
+    res.json(response);
+  }
+};
+
+module.exports = { rutaInicial, crearUsuario, modificarUsuario, mostrarTodos, eliminarUno };
