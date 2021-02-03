@@ -1,9 +1,45 @@
 const bcryp = require("bcrypt");
 const _ = require("underscore");
+const jwt = require("jsonwebtoken");
 const Usuario = require("../models/usuario");
+const { CADUCIDAD_TOKEN, SEED } = require("../config/config");
 
 const rutaInicial = (req, res) => {
   res.json({ ok: true, msg: "API *** api/usuario *** API V1.0" });
+};
+
+const login = (req, res) => {
+  let response = { error: null, ok: false, msg: "" };
+  const { email, password } = req.body;
+
+  try {
+    Usuario.findOne({ email }, (error, usuario) => {
+      if (error || !usuario) {
+        response.error = error;
+        response.msg = "No se puede encontrar el usuario indicado";
+        return res.status(400).json(response);
+      }
+
+      if (!bcryp.compareSync(password || "", usuario.password)) {
+        response.msg = "Comprobar que el email o password sean correctos";
+        return res.status(400).json(response);
+      }
+
+      const token = jwt.sign({ usuario }, SEED, {
+        expiresIn: CADUCIDAD_TOKEN,
+      });
+
+      response.msg = "Bienvenido a API 2021";
+      response.ok = true;
+      response.token = token;
+      res.json(response);
+    });
+  } catch (error) {
+    response.error = error;
+    response.ok = false;
+    response.msg = error.message || "Error en base de datos";
+    res.json(response);
+  }
 };
 
 const crearUsuario = (req, res) => {
@@ -104,4 +140,4 @@ const eliminarUno = (req, res) => {
   }
 };
 
-module.exports = { rutaInicial, crearUsuario, modificarUsuario, mostrarTodos, eliminarUno };
+module.exports = { login, rutaInicial, crearUsuario, modificarUsuario, mostrarTodos, eliminarUno };
