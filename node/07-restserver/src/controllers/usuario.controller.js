@@ -25,8 +25,13 @@ const login = (req, res) => {
         return res.status(400).json(response);
       }
 
+<<<<<<< HEAD
       const token = jwt.sign({ usuario }, SEED, {
         expiresIn: CADUCIDAD_TOKEN,
+=======
+      const token = jwt.sign({ usuario }, process.env.SEDD || SEED, {
+        expiresIn: process.env.CADUCIDAD_TOKEN || CADUCIDAD_TOKEN,
+>>>>>>> b7b6cdbaafc7ec7c27dce51bbf6af5e77d2c8b53
       });
 
       response.msg = "Bienvenido a API 2021";
