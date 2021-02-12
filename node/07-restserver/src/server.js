@@ -1,11 +1,13 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const app = express();
+const path = require("path");
 const { port, mongoConnect, mongoConnectLocal } = require("./config/config");
 const index = require("./routes/index");
 
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
+app.use(express.static(path.join(__dirname, "./public")));
 
 mongoose.connect(
   process.env.NODE_ENV ? mongoConnect : mongoConnectLocal,

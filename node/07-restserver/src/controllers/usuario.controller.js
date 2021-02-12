@@ -42,6 +42,20 @@ const login = (req, res) => {
   }
 };
 
+const saveTokenGoogle = (req, res) => {
+  let response = { error: null, ok: false, msg: "" };
+  const token = req.body.idtoken;
+
+  if (!token) {
+    response.msg = "No es posible continuar con la peticion";
+    res.json(response);
+  }
+
+  response.ok = true;
+  response.token = token;
+  res.json(response);
+};
+
 const crearUsuario = (req, res) => {
   let response = { error: null, ok: false, msg: "" };
 
@@ -140,4 +154,4 @@ const eliminarUno = (req, res) => {
   }
 };
 
-module.exports = { login, rutaInicial, crearUsuario, modificarUsuario, mostrarTodos, eliminarUno };
+module.exports = { login, rutaInicial, crearUsuario, modificarUsuario, mostrarTodos, eliminarUno, saveTokenGoogle };
