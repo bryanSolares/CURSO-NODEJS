@@ -25,7 +25,7 @@ const getAllUsers = async (req, res = response) => {
   } catch (error) {
     response.msg = error.message || "Error en base de datos";
     response.error = error;
-    res.json(response);
+    return res.status(500).json(response);
   }
 };
 
@@ -47,7 +47,7 @@ const createUser = async (req, res = response) => {
   } catch (error) {
     response.msg = error.message || "Error en base de datos";
     response.error = error;
-    res.json(response);
+    return res.status(500).json(response);
   }
 };
 
@@ -71,7 +71,7 @@ const updateUser = async (req, res = response) => {
   } catch (error) {
     response.msg = error.message || "Error en base de datos";
     response.error = error;
-    res.json(response);
+    return res.status(500).json(response);
   }
 };
 
@@ -90,7 +90,7 @@ const deleteUser = async (req, res = response) => {
   } catch (error) {
     response.msg = error.message || "Error en base de datos";
     response.error = error;
-    res.json(response);
+    return res.status(500).json(response);
   }
 };
 
