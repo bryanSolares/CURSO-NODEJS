@@ -5,7 +5,7 @@ const UsuarioSchema = Schema({
   email: { type: String, require: [true, "El correo es obligatorio"], unique: true },
   password: { type: String, require: [true, "La contrasenia es obligatoria"] },
   image: { type: String },
-  role: { type: String, require: [true], enum: ["ADMIN_ROLE", "USER_ROLE"] },
+  role: { type: String, require: [true], default: "USER_ROLE", enum: ["ADMIN_ROLE", "USER_ROLE"] },
   status: { type: Boolean, default: true },
   google: { type: Boolean, default: false },
 });

@@ -82,7 +82,6 @@ const deleteUser = async (req, res = response) => {
 
   try {
     const userNew = await Usuario.findByIdAndUpdate(id, query);
-
     response.ok = true;
     response.msg = "Usuario eliminado correctamente";
     response.user = userNew;
