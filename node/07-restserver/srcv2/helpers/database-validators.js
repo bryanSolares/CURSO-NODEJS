@@ -1,5 +1,6 @@
 const Role = require("../models/role");
-const { Usuario, Categoria } = require("../models");
+const { Usuario, Categoria, Producto } = require("../models");
+const { response } = require("express");
 
 const verifyRoleValid = async (role = "") => {
   const existRole = await Role.findOne({ role });
@@ -36,4 +37,41 @@ const verifyCategoryDisable = async (id = "") => {
   }
 };
 
-module.exports = { verifyRoleValid, verifyEmailExist, verifyIdExist, verifyIdExistsCategory, verifyCategoryDisable };
+const verifyIdExistsProduct = async (id = "") => {
+  const idExist = await Producto.findById(id);
+  if (!idExist) {
+    throw new Error(`El id ${id} no existe en base de datos`);
+  }
+};
+
+const verifyProductDisable = async (id = "") => {
+  const exists = await Producto.findOne({ _id: id, status: true });
+  if (!exists) {
+    throw new Error(`El id ${id} no existe en base de datos`);
+  }
+};
+
+const addProductRequest = async (req, res = response, next) => {
+  let response = { ok: false, msg: "", error: null };
+  const { id } = req.params;
+  try {
+    const producto = await Producto.findById(id);
+    req.producto = producto;
+    next();
+  } catch (error) {
+    response.msg = error.message || "Error en base de datos";
+    response.error = error;
+    return res.status(500).json(response);
+  }
+};
+
+module.exports = {
+  verifyRoleValid,
+  verifyEmailExist,
+  verifyIdExist,
+  verifyIdExistsCategory,
+  verifyCategoryDisable,
+  verifyIdExistsProduct,
+  verifyProductDisable,
+  addProductRequest,
+};

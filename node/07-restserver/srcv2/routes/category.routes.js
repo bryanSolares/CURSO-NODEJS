@@ -6,7 +6,7 @@ const { validarCampos, validateJWT, validateAdminRole } = require("../middleware
 const { verifyIdExistsCategory, verifyCategoryDisable } = require("../helpers");
 
 router.post(
-  "/categorias/add",
+  "/add",
   validateJWT,
   check("name", "El nombre es obligatorio").notEmpty(),
   validarCampos,
@@ -14,7 +14,7 @@ router.post(
 );
 
 router.put(
-  "/categorias/update/:id",
+  "/update/:id",
   validateJWT,
   check("id", "El id es obligatorio").isMongoId(),
   check("id").custom(verifyIdExistsCategory),
@@ -25,7 +25,7 @@ router.put(
 );
 
 router.delete(
-  "/categorias/delete/:id",
+  "/delete/:id",
   validateJWT,
   validateAdminRole,
   check("id", "El id es obligatorio").isMongoId(),
@@ -35,10 +35,10 @@ router.delete(
   controller.deleteCategorie
 );
 
-router.get("/categorias", validateJWT, validarCampos, controller.allCategories);
+router.get("/", validateJWT, validarCampos, controller.allCategories);
 
 router.get(
-  "/categorias/:id",
+  "/:id",
   validateJWT,
   check("id", "El id es obligatorio").isMongoId(),
   check("id").custom(verifyIdExistsCategory),
