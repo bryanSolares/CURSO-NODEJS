@@ -1,6 +1,6 @@
 const { response } = require("express");
 const bcryptjs = require("bcryptjs");
-const Usuario = require("../models/usuario");
+const { Usuario } = require("../models");
 
 const inicio = (req, res = response) => {
   res.send("Api Usuarios");
@@ -8,7 +8,7 @@ const inicio = (req, res = response) => {
 
 const getAllUsers = async (req, res = response) => {
   let response = { ok: false, msg: "", error: null };
-  const { limit = 5, to = 0 } = req.query;
+  const { limit = 10, to = 0 } = req.query;
   const query = { status: true };
 
   try {
@@ -18,7 +18,6 @@ const getAllUsers = async (req, res = response) => {
     ]);
 
     response.ok = true;
-    response.msg = "";
     response.users = users;
     response.count = count;
     res.json(response);
@@ -62,7 +61,7 @@ const updateUser = async (req, res = response) => {
       userLast.password = bcryptjs.hashSync(password, salt);
     }
 
-    const userNew = await Usuario.findByIdAndUpdate(id, userLast);
+    const userNew = await Usuario.findByIdAndUpdate(id, userLast, { new: true });
 
     response.ok = true;
     response.msg = "Usuario modificado correctamente";

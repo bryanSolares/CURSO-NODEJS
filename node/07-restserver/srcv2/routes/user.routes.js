@@ -30,7 +30,7 @@ router.put(
 router.delete(
   "/delete/:id",
   validateJWT,
-  //validateAdminRole,
+  validateAdminRole,
   //rolesValidAdmit("ADMIN_ROLE", "VENTAS_ROLE"),
   check("id", "El id no es valido").isMongoId(),
   check("id").custom(verifyIdExist),
