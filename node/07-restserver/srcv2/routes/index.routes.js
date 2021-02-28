@@ -5,6 +5,7 @@ const authRoute = require("./auth.routes");
 const categoryRoute = require("./category.routes");
 const productRoute = require("./product.routes");
 const searchRoute = require("./buscar.routes");
+const uploadRoute = require("./upload.routes");
 
 router.get("/api", (req, res) => {
   res.send("Bienvenido API v2 2020");
@@ -15,5 +16,6 @@ router.use("/api/usuarios", usuariosRoute);
 router.use("/api/categories", categoryRoute);
 router.use("/api/products", productRoute);
 router.use("/api/search", searchRoute);
+router.use("/api/uploads", uploadRoute);
 
 module.exports = router;
