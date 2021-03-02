@@ -1,6 +1,7 @@
 const Role = require("../models/role");
 const { Usuario, Categoria, Producto } = require("../models");
 const { response } = require("express");
+const { include } = require("underscore");
 
 const verifyRoleValid = async (role = "") => {
   const existRole = await Role.findOne({ role });
@@ -65,6 +66,19 @@ const addProductRequest = async (req, res = response, next) => {
   }
 };
 
+const collectionsPermits = (collection = "", collections = []) => {
+  if (!collections.includes(collection)) {
+    throw new Error(`La coleccion ${collection} no es permitida: ${collections}`);
+  }
+  return true;
+};
+
+const verifyFilesParams = async (file = "") => {
+  if (!file) {
+    throw new Error(`No se ha encontrado archivo para cargar`);
+  }
+};
+
 module.exports = {
   verifyRoleValid,
   verifyEmailExist,
@@ -74,4 +88,6 @@ module.exports = {
   verifyIdExistsProduct,
   verifyProductDisable,
   addProductRequest,
+  collectionsPermits,
+  verifyFilesParams,
 };

@@ -7,6 +7,7 @@ const ProductoSchema = Schema({
   price: { type: Number, default: 0 },
   category: { type: Schema.Types.ObjectId, ref: "Categoria", require: true },
   description: { type: String },
+  image: { type: String },
   available: { type: Boolean, default: true },
 });
 

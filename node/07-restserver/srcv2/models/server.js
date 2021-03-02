@@ -4,6 +4,7 @@ const cors = require("cors");
 const fileUploads = require("express-fileupload");
 const routes = require("../routes/index.routes");
 const { databaseConnectionProd } = require("../database/database.config");
+const morgan = require("morgan");
 
 class Server {
   constructor() {
@@ -24,6 +25,7 @@ class Server {
     this.app.use(express.urlencoded({ extended: false }));
     this.app.use(express.json());
     this.app.use(fileUploads({ useTempFiles: true, tempFileDir: "/temp/" }));
+    this.app.use(morgan("dev"));
   }
 
   routes() {
