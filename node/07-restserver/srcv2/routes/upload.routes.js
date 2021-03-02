@@ -14,7 +14,17 @@ router.put(
   check("collection").custom((c) => collectionsPermits(c, ["users", "products"])),
   check("id", "El id debera ser valido").isMongoId(),
   validarCampos,
-  controller.updateFileCollection
+  //controller.updateFileCollection
+  controller.updateFileCollectionCloudinary
+);
+router.get(
+  "/:collection/:id",
+  validateJWT,
+  check("collection", "La coleccion es obligatoria").notEmpty(),
+  check("collection").custom((c) => collectionsPermits(c, ["users", "products"])),
+  check("id", "El id debera ser valido").isMongoId(),
+  validarCampos,
+  controller.getFile
 );
 
 module.exports = router;
